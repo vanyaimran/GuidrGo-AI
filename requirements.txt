@@ -1,0 +1,7 @@
+pandas
+numpy
+textblob
+requests
+googlemaps
+streamlit
+scikit-learn
