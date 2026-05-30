@@ -1,12 +1,36 @@
 from fastapi import FastAPI
 import googlemaps
+import requests
 import os
 
 app = FastAPI()
 
-API_KEY = os.getenv("GOOGLE_MAPS_API_KEY")
+# API KEYS
+GOOGLE_MAPS_API_KEY = os.getenv("GOOGLE_MAPS_API_KEY")
+WEATHER_API_KEY = os.getenv("WEATHER_API_KEY")
 
-gmaps = googlemaps.Client(key=API_KEY)
+# Google Maps Client
+gmaps = googlemaps.Client(key=GOOGLE_MAPS_API_KEY)
+
+
+# WEATHER FUNCTION
+def get_weather(city):
+
+    try:
+        url = f"http://api.weatherapi.com/v1/current.json?key={WEATHER_API_KEY}&q={city}"
+
+        response = requests.get(url)
+        data = response.json()
+
+        return {
+            "temperature": data["current"]["temp_c"],
+            "condition": data["current"]["condition"]["text"],
+            "humidity": data["current"]["humidity"],
+            "wind_kph": data["current"]["wind_kph"]
+        }
+
+    except Exception:
+        return {}
 
 
 @app.get("/")
@@ -22,33 +46,41 @@ def get_travel_data(city: str):
     hotels = []
     attractions = []
 
+    # HOTELS
     try:
         hotel_results = gmaps.places(
             query=f"best hotels in {city} Pakistan"
         )
 
-        for place in hotel_results["results"][:5]:
+        for hotel in hotel_results["results"][:5]:
             hotels.append({
-                "name": place["name"],
-                "rating": place.get("rating", "N/A")
+                "name": hotel["name"],
+                "rating": hotel.get("rating")
             })
 
     except:
-        hotels = []
+        pass
 
+    # ATTRACTIONS
     try:
         attraction_results = gmaps.places(
             query=f"tourist attractions in {city} Pakistan"
         )
 
-        for place in attraction_results["results"][:10]:
-            attractions.append(place["name"])
+        for attraction in attraction_results["results"][:10]:
+            attractions.append(
+                attraction["name"]
+            )
 
     except:
-        attractions = []
+        pass
+
+    # WEATHER
+    weather = get_weather(city)
 
     return {
         "city": city,
+        "weather": weather,
         "hotels": hotels,
         "attractions": attractions
     }
