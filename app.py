@@ -3,7 +3,26 @@ import streamlit as st
 
 st.title("🌍 GuidrGo AI Travel Assistant")
 
-city = st.text_input("Destination")
+start_city = st.selectbox(
+    "Starting City",
+    [
+        "Lahore",
+        "Islamabad",
+        "Karachi",
+        "Peshawar"
+    ]
+)
+
+destination = st.selectbox(
+    "Destination",
+    [
+        "Murree",
+        "Naran",
+        "Hunza",
+        "Skardu",
+        "Swat"
+    ]
+)
 
 days = st.slider("Number of Days",1,14,3)
 
