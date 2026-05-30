@@ -5,17 +5,13 @@ import os
 
 app = FastAPI()
 
-# API KEYS
 GOOGLE_MAPS_API_KEY = os.getenv("GOOGLE_MAPS_API_KEY")
 WEATHER_API_KEY = os.getenv("WEATHER_API_KEY")
 
-# Google Maps Client
 gmaps = googlemaps.Client(key=GOOGLE_MAPS_API_KEY)
 
 
-# WEATHER FUNCTION
 def get_weather(city):
-
     try:
         url = f"http://api.weatherapi.com/v1/current.json?key={WEATHER_API_KEY}&q={city}"
 
@@ -29,8 +25,10 @@ def get_weather(city):
             "wind_kph": data["current"]["wind_kph"]
         }
 
-    except Exception:
-        return {}
+    except Exception as e:
+        return {
+            "error": str(e)
+        }
 
 
 @app.get("/")
@@ -40,13 +38,20 @@ def home():
     }
 
 
+@app.get("/debug")
+def debug():
+    return {
+        "weather_key_exists": WEATHER_API_KEY is not None,
+        "google_key_exists": GOOGLE_MAPS_API_KEY is not None
+    }
+
+
 @app.get("/travel/{city}")
 def get_travel_data(city: str):
 
     hotels = []
     attractions = []
 
-    # HOTELS
     try:
         hotel_results = gmaps.places(
             query=f"best hotels in {city} Pakistan"
@@ -61,7 +66,6 @@ def get_travel_data(city: str):
     except:
         pass
 
-    # ATTRACTIONS
     try:
         attraction_results = gmaps.places(
             query=f"tourist attractions in {city} Pakistan"
@@ -75,7 +79,6 @@ def get_travel_data(city: str):
     except:
         pass
 
-    # WEATHER
     weather = get_weather(city)
 
     return {
@@ -83,10 +86,4 @@ def get_travel_data(city: str):
         "weather": weather,
         "hotels": hotels,
         "attractions": attractions
-    }
-    @app.get("/debug")
-def debug():
-    return {
-        "weather_key_found": WEATHER_API_KEY is not None,
-        "google_key_found": GOOGLE_MAPS_API_KEY is not None
     }
