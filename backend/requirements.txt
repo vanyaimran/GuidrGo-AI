@@ -1,4 +1,0 @@
-fastapi
-uvicorn
-googlemaps
-python-dotenv
