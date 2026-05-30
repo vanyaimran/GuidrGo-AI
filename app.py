@@ -33,8 +33,9 @@ travel_type = st.selectbox(
 
 if st.button("Generate Travel Report"):
 
-    st.success(f"Generating report for {city}")
-
+    st.success(
+    f"Generating trip from {start_city} to {destination}"
+)
     st.subheader("🌦 Weather Analysis")
     st.write("Condition: Sunny")
     st.write("Temperature: 25°C")
@@ -49,6 +50,32 @@ if st.button("Generate Travel Report"):
 
     st.subheader("🗺 Suggested Itinerary")
 
+    if destination == "Murree":
+
     st.write("Day 1: Mall Road")
     st.write("Day 2: Patriata")
     st.write("Day 3: Kashmir Point")
+
+elif destination == "Naran":
+
+    st.write("Day 1: Lake Saif ul Malook")
+    st.write("Day 2: Babusar Top")
+    st.write("Day 3: Kunhar River")
+
+elif destination == "Hunza":
+
+    st.write("Day 1: Baltit Fort")
+    st.write("Day 2: Attabad Lake")
+    st.write("Day 3: Eagle Nest")
+
+elif destination == "Skardu":
+
+    st.write("Day 1: Shangrila Resort")
+    st.write("Day 2: Upper Kachura Lake")
+    st.write("Day 3: Deosai Plains")
+
+elif destination == "Swat":
+
+    st.write("Day 1: Mingora")
+    st.write("Day 2: Malam Jabba")
+    st.write("Day 3: Kalam Valley")
