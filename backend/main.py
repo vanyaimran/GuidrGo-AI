@@ -84,3 +84,9 @@ def get_travel_data(city: str):
         "hotels": hotels,
         "attractions": attractions
     }
+    @app.get("/debug")
+def debug():
+    return {
+        "weather_key_found": WEATHER_API_KEY is not None,
+        "google_key_found": GOOGLE_MAPS_API_KEY is not None
+    }
