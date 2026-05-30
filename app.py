@@ -20,8 +20,19 @@ destination = st.selectbox(
         "Naran",
         "Hunza",
         "Skardu",
-        "Swat"
+        "Swat",
+        "Islamabad",
+        "Lahore",
+        "Karachi",
+        "Peshawar",
+        "Quetta",
+        "Gilgit",
+        "Fairy Meadows",
+        "Neelum Valley",
+        "Chitral",
+        "Gwadar"
     ]
+
 )
 
 days = st.slider("Number of Days",1,14,3)
@@ -33,49 +44,82 @@ travel_type = st.selectbox(
 
 if st.button("Generate Travel Report"):
 
-    st.success(
+   st.success(
     f"Generating trip from {start_city} to {destination}"
 )
-    st.subheader("🌦 Weather Analysis")
-    st.write("Condition: Sunny")
-    st.write("Temperature: 25°C")
-    st.write("Risk Level: Low")
-
-    st.subheader("🏨 Recommended Hotel")
-    st.write("Grand Taj Hotel")
-    st.write("Rating: 4.4/5")
-
-    st.subheader("🚗 Traffic Analysis")
-    st.write("Traffic Risk: Medium")
 
     st.subheader("🗺 Suggested Itinerary")
 
     if destination == "Murree":
+        st.write("Day 1: Mall Road")
+        st.write("Day 2: Patriata")
+        st.write("Day 3: Kashmir Point")
 
-    st.write("Day 1: Mall Road")
-    st.write("Day 2: Patriata")
-    st.write("Day 3: Kashmir Point")
+    elif destination == "Naran":
+        st.write("Day 1: Lake Saif ul Malook")
+        st.write("Day 2: Babusar Top")
+        st.write("Day 3: Kunhar River")
 
-elif destination == "Naran":
+    elif destination == "Hunza":
+        st.write("Day 1: Baltit Fort")
+        st.write("Day 2: Attabad Lake")
+        st.write("Day 3: Eagle Nest")
+            elif destination == "Skardu":
+        st.write("Day 1: Shangrila Resort")
+        st.write("Day 2: Upper Kachura Lake")
+        st.write("Day 3: Deosai Plains")
 
-    st.write("Day 1: Lake Saif ul Malook")
-    st.write("Day 2: Babusar Top")
-    st.write("Day 3: Kunhar River")
+    elif destination == "Swat":
+        st.write("Day 1: Mingora")
+        st.write("Day 2: Malam Jabba")
+        st.write("Day 3: Kalam Valley")
+    elif destination == "Islamabad":
+    st.write("Day 1: Faisal Mosque")
+    st.write("Day 2: Daman-e-Koh")
+    st.write("Day 3: Pakistan Monument")
 
-elif destination == "Hunza":
+    elif destination == "Lahore":
+    st.write("Day 1: Badshahi Mosque")
+    st.write("Day 2: Lahore Fort")
+    st.write("Day 3: Food Street")
 
-    st.write("Day 1: Baltit Fort")
-    st.write("Day 2: Attabad Lake")
-    st.write("Day 3: Eagle Nest")
+    elif destination == "Karachi":
+    st.write("Day 1: Clifton Beach")
+    st.write("Day 2: Mohatta Palace")
+    st.write("Day 3: Port Grand")
 
-elif destination == "Skardu":
+    elif destination == "Peshawar":
+    st.write("Day 1: Qissa Khwani Bazaar")
+    st.write("Day 2: Bala Hisar Fort")
+    st.write("Day 3: Peshawar Museum")
 
-    st.write("Day 1: Shangrila Resort")
-    st.write("Day 2: Upper Kachura Lake")
-    st.write("Day 3: Deosai Plains")
+    elif destination == "Quetta":
+    st.write("Day 1: Hanna Lake")
+    st.write("Day 2: Quetta Museum")
+    st.write("Day 3: Hazarganji National Park")
 
-elif destination == "Swat":
+    elif destination == "Gilgit":
+    st.write("Day 1: Kargah Buddha")
+    st.write("Day 2: Naltar Valley")
+    st.write("Day 3: Gilgit Bazaar")
 
-    st.write("Day 1: Mingora")
-    st.write("Day 2: Malam Jabba")
-    st.write("Day 3: Kalam Valley")
+    elif destination == "Fairy Meadows":
+    st.write("Day 1: Fairy Meadows Trek")
+    st.write("Day 2: Nanga Parbat Viewpoint")
+    st.write("Day 3: Camping")
+
+    elif destination == "Neelum Valley":
+    st.write("Day 1: Keran")
+    st.write("Day 2: Sharda")
+    st.write("Day 3: Arang Kel")
+
+    elif destination == "Chitral":
+    st.write("Day 1: Chitral Fort")
+    st.write("Day 2: Kalash Valley")
+    st.write("Day 3: Shahi Mosque")
+
+    elif destination == "Gwadar":
+    st.write("Day 1: Gwadar Beach")
+    st.write("Day 2: Hammerhead")
+    st.write("Day 3: Marine Drive")
+Added more destinations and itineraries
