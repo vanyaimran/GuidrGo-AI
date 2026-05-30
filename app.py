@@ -1,7 +1,73 @@
-
 import streamlit as st
+import googlemaps
+
+# ==========================
+# GOOGLE MAPS
+# ==========================
+
+API_KEY = "AIzaSyArdcZwlR4JZ4cWnxsA0SQOwIH-8-7GeUs"
+
+gmaps = googlemaps.Client(key=API_KEY)
+
+# ==========================
+# FUNCTIONS
+# ==========================
+
+def get_hotels(city):
+
+    try:
+        places = gmaps.places(
+            query=f"best hotels in {city} Pakistan"
+        )
+
+        hotels = []
+
+        for place in places["results"][:5]:
+
+            hotels.append({
+                "name": place["name"],
+                "rating": place.get("rating", "N/A")
+            })
+
+        return hotels
+
+    except:
+        return []
+
+
+def get_attractions(city):
+
+    try:
+        places = gmaps.places(
+            query=f"tourist attractions in {city} Pakistan"
+        )
+
+        attractions = []
+
+        for place in places["results"][:10]:
+            attractions.append(place["name"])
+
+        return attractions
+
+    except:
+        return []
+
+
+# ==========================
+# PAGE
+# ==========================
+
+st.set_page_config(
+    page_title="GuidrGo AI",
+    page_icon="🌍",
+    layout="wide"
+)
 
 st.title("🌍 GuidrGo AI Travel Assistant")
+
+# ==========================
+# INPUTS
+# ==========================
 
 start_city = st.selectbox(
     "Starting City",
@@ -9,7 +75,8 @@ start_city = st.selectbox(
         "Lahore",
         "Islamabad",
         "Karachi",
-        "Peshawar"
+        "Peshawar",
+        "Quetta"
     ]
 )
 
@@ -32,15 +99,29 @@ destination = st.selectbox(
         "Chitral",
         "Gwadar"
     ]
-
 )
 
-days = st.slider("Number of Days",1,14,3)
+days = st.slider(
+    "Number of Days",
+    1,
+    14,
+    3
+)
 
 travel_type = st.selectbox(
     "Travel Type",
-    ["Family","Luxury","Adventure","Honeymoon","Solo"]
+    [
+        "Family",
+        "Luxury",
+        "Adventure",
+        "Honeymoon",
+        "Solo"
+    ]
 )
+
+# ==========================
+# REPORT
+# ==========================
 
 if st.button("Generate Travel Report"):
 
@@ -48,91 +129,56 @@ if st.button("Generate Travel Report"):
         f"Generating trip from {start_city} to {destination}"
     )
 
+    # WEATHER
     st.subheader("🌦 Weather Analysis")
-    st.write("Condition: Sunny")
-    st.write("Temperature: 25°C")
-    st.write("Risk Level: Low")
 
-    st.subheader("🏨 Recommended Hotel")
-    st.write("Grand Taj Hotel")
-    st.write("Rating: 4.4/5")
+    st.write("Weather API will be connected in Phase 2")
+
+    # HOTELS
+
+    st.subheader("🏨 Recommended Hotels")
+
+    hotels = get_hotels(destination)
+
+    if hotels:
+
+        for hotel in hotels:
+
+            st.write(
+                f"⭐ {hotel['name']} | Rating: {hotel['rating']}"
+            )
+
+    else:
+
+        st.write("No hotel data found")
+
+    # TRAFFIC
 
     st.subheader("🚗 Traffic Analysis")
-    st.write("Traffic Risk: Medium")
 
-    st.subheader("🗺 Suggested Itinerary")
+    st.write("Google Maps Route API coming in Phase 2")
 
-    if destination == "Murree":
-        st.write("Day 1: Mall Road")
-        st.write("Day 2: Patriata")
-        st.write("Day 3: Kashmir Point")
+    # ITINERARY
 
-    elif destination == "Naran":
-        st.write("Day 1: Lake Saif ul Malook")
-        st.write("Day 2: Babusar Top")
-        st.write("Day 3: Kunhar River")
+    st.subheader("🗺 Suggested Attractions")
 
-    elif destination == "Hunza":
-        st.write("Day 1: Baltit Fort")
-        st.write("Day 2: Attabad Lake")
-        st.write("Day 3: Eagle Nest")
+    attractions = get_attractions(destination)
 
-    elif destination == "Skardu":
-        st.write("Day 1: Shangrila Resort")
-        st.write("Day 2: Upper Kachura Lake")
-        st.write("Day 3: Deosai Plains")
+    if attractions:
 
-    elif destination == "Swat":
-        st.write("Day 1: Mingora")
-        st.write("Day 2: Malam Jabba")
-        st.write("Day 3: Kalam Valley")
+        for i, attraction in enumerate(attractions, start=1):
 
-    elif destination == "Islamabad":
-        st.write("Day 1: Faisal Mosque")
-        st.write("Day 2: Daman-e-Koh")
-        st.write("Day 3: Pakistan Monument")
+            st.write(
+                f"Day {i}: {attraction}"
+            )
 
-    elif destination == "Lahore":
-        st.write("Day 1: Badshahi Mosque")
-        st.write("Day 2: Lahore Fort")
-        st.write("Day 3: Food Street")
+    else:
 
-    elif destination == "Karachi":
-        st.write("Day 1: Clifton Beach")
-        st.write("Day 2: Mohatta Palace")
-        st.write("Day 3: Port Grand")
+        st.write("No attractions found")
 
-    elif destination == "Peshawar":
-        st.write("Day 1: Qissa Khwani Bazaar")
-        st.write("Day 2: Bala Hisar Fort")
-        st.write("Day 3: Peshawar Museum")
 
-    elif destination == "Quetta":
-        st.write("Day 1: Hanna Lake")
-        st.write("Day 2: Quetta Museum")
-        st.write("Day 3: Hazarganji National Park")
 
-    elif destination == "Gilgit":
-        st.write("Day 1: Kargah Buddha")
-        st.write("Day 2: Naltar Valley")
-        st.write("Day 3: Gilgit Bazaar")
 
-    elif destination == "Fairy Meadows":
-        st.write("Day 1: Fairy Meadows Trek")
-        st.write("Day 2: Nanga Parbat Viewpoint")
-        st.write("Day 3: Camping")
-
-    elif destination == "Neelum Valley":
-        st.write("Day 1: Keran")
-        st.write("Day 2: Sharda")
-        st.write("Day 3: Arang Kel")
-
-    elif destination == "Chitral":
-        st.write("Day 1: Chitral Fort")
-        st.write("Day 2: Kalash Valley")
-        st.write("Day 3: Shahi Mosque")
-
-    elif destination == "Gwadar":
-        st.write("Day 1: Gwadar Beach")
-        st.write("Day 2: Hammerhead")
-        st.write("Day 3: Marine Drive")
+   
+       
+        
