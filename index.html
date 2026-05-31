@@ -65,33 +65,32 @@ allowfullscreen>
 
     <!-- Reviews -->
 
-    <h2>⭐ Hotel Review Analysis</h2>
-    <div id="reviews"></div>
+   <h2>🏨 Smart Hotel Recommendation</h2>
 
-    <hr>
+<p>
+    Tell us what matters most to you:
+    food, view, luxury, family, staff, comfort
+</p>
 
-    <!-- Smart Hotel Recommendation -->
+<input
+type="text"
+id="recommendCity"
+placeholder="Enter City">
 
-    <h2>🏨 Smart Hotel Recommendation</h2>
+<br><br>
 
-    <p>
-        Tell us what matters most to you:
-        food, view, luxury, family, staff, comfort
-    </p>
+<input
+type="text"
+id="hotelPreference"
+placeholder="Example: good food">
 
-    <input
-    type="text"
-    id="hotelPreference"
-    placeholder="Example: good food">
+<button onclick="recommendHotel()">
+    Recommend Hotel
+</button>
 
-    <button onclick="recommendHotel()">
-        Recommend Hotel
-    </button>
+<div id="hotelRecommendation"></div>
 
-    <div id="hotelRecommendation"></div>
-
-    <hr>
-
+<hr>
     <!-- Trip Planner -->
 
     <h2>🗺 AI Trip Planner</h2>
