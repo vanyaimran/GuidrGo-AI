@@ -142,8 +142,16 @@ async function checkSentiment() {
 }
 async function recommendHotel() {
 
+    const city =
+        document.getElementById("recommendCity").value;
+
     const preference =
         document.getElementById("hotelPreference").value;
+
+    if (!city) {
+        alert("Please enter a city");
+        return;
+    }
 
     if (!preference) {
         alert("Please enter a preference");
@@ -151,7 +159,7 @@ async function recommendHotel() {
     }
 
     const response =
-        await fetch(`/recommend/${preference}`);
+        await fetch(`/recommend/${city}/${preference}`);
 
     const data =
         await response.json();
@@ -166,7 +174,7 @@ async function recommendHotel() {
             <strong>${data.recommended_hotel}</strong>
         </p>
 
-        <h4>Matching Reviews</h4>
+        <h4>Details</h4>
 
         <ul>
             ${data.reviews.map(review =>
