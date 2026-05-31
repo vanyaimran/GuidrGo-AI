@@ -7,13 +7,64 @@
 <body>
 
 <div class="container">
+
     <h1>🌍 GuidrGo AI</h1>
+
     <p>AI Powered Travel Recommendation System</p>
 
-    <input type="text" id="city" placeholder="Enter City">
-    <button onclick="searchCity()">Search</button>
+    <!-- City Search -->
+
+    <input
+    type="text"
+    id="city"
+    placeholder="Enter City">
+
+    <button onclick="searchCity()">
+        Search
+    </button>
+
+    <!-- Travel Results -->
 
     <div id="result"></div>
+
+    <hr>
+
+    <!-- Travel Score -->
+
+    <h2>🏆 Travel Score</h2>
+    <div id="score"></div>
+
+    <hr>
+
+    <!-- Reviews -->
+
+    <h2>⭐ Hotel Review Analysis</h2>
+    <div id="reviews"></div>
+
+    <hr>
+
+    <!-- Trip Planner -->
+
+    <h2>🗺 AI Trip Planner</h2>
+    <div id="trip"></div>
+
+    <hr>
+
+    <!-- NLP Section -->
+
+    <h2>🧠 NLP Sentiment Analysis</h2>
+
+    <input
+    type="text"
+    id="sentimentText"
+    placeholder="Example: I love visiting Skardu">
+
+    <button onclick="checkSentiment()">
+        Analyze
+    </button>
+
+    <div id="sentimentResult"></div>
+
 </div>
 
 <script src="script.js"></script>
