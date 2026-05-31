@@ -46,8 +46,10 @@ def analyze_sentiment(text):
 
     if score > 0:
         label = "Positive"
+
     elif score < 0:
         label = "Negative"
+
     else:
         label = "Neutral"
 
@@ -260,9 +262,6 @@ def sentiment(text: str):
 # SMART HOTEL RECOMMENDER
 # ==========================
 @app.get("/recommend/{city}/{preference}")
-def recommend_hotel(city: str, preference: str):
-
-   @app.get("/recommend/{city}/{preference}")
 def recommend_hotel(city: str, preference: str):
 
     try:
