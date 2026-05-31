@@ -183,6 +183,93 @@ def sentiment(text: str):
 def reviews():
 
     return analyze_hotel_reviews()
+    # ==========================
+# SMART HOTEL RECOMMENDER
+# ==========================
+@app.get("/recommend/{preference}")
+def recommend_hotel(preference: str):
+
+    preference = preference.lower()
+
+    hotel_database = {
+
+        "food": {
+            "hotel": "Pearl Continental Hotel Karachi",
+            "reviews": [
+                "Amazing breakfast buffet",
+                "Excellent dining experience",
+                "Food quality was outstanding"
+            ]
+        },
+
+        "view": {
+            "hotel": "Movenpick Karachi",
+            "reviews": [
+                "Beautiful sea view",
+                "Amazing rooftop scenery",
+                "Loved the surroundings"
+            ]
+        },
+
+        "luxury": {
+            "hotel": "Karachi Marriott Hotel",
+            "reviews": [
+                "Luxury experience",
+                "Premium rooms",
+                "Excellent facilities"
+            ]
+        },
+
+        "family": {
+            "hotel": "Avari Towers Karachi",
+            "reviews": [
+                "Great for families",
+                "Safe environment",
+                "Kids enjoyed the stay"
+            ]
+        },
+
+        "comfort": {
+            "hotel": "Hotel Mehran",
+            "reviews": [
+                "Very comfortable rooms",
+                "Peaceful stay",
+                "Excellent sleeping experience"
+            ]
+        },
+
+        "staff": {
+            "hotel": "Pearl Continental Hotel Karachi",
+            "reviews": [
+                "Staff were very helpful",
+                "Excellent customer service",
+                "Friendly management"
+            ]
+        }
+    }
+
+    for keyword in hotel_database:
+
+        if keyword in preference:
+
+            return {
+                "recommended_hotel":
+                hotel_database[keyword]["hotel"],
+
+                "reviews":
+                hotel_database[keyword]["reviews"]
+            }
+
+    return {
+        "recommended_hotel":
+        "Karachi Marriott Hotel",
+
+        "reviews": [
+            "Highly rated overall",
+            "Popular among travelers",
+            "Excellent guest satisfaction"
+        ]
+    }
 
 
 # ==========================
