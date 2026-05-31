@@ -60,28 +60,49 @@ def analyze_sentiment(text):
 # ==========================
 # REVIEW ANALYSIS
 # ==========================
-def analyze_hotel_reviews():
-
-    reviews = [
-        "Amazing hotel and staff",
-        "Rooms were dirty and uncomfortable",
-        "Excellent experience and location",
-        "Bad service and rude staff",
-        "Loved the food and hospitality",
-        "Terrible management",
-        "Very clean and peaceful place"
-    ]
+def analyze_hotel_reviews(city):
 
     analyzed_reviews = []
 
-    for review in reviews:
+    try:
 
-        sentiment = analyze_sentiment(review)
+        hotel_results = gmaps.places(
+            query=f"best hotels in {city} Pakistan"
+        )
+
+        if not hotel_results["results"]:
+            return []
+
+        place_id = hotel_results["results"][0]["place_id"]
+
+        details = gmaps.place(
+            place_id=place_id,
+            fields=["reviews"]
+        )
+
+        google_reviews = details["result"].get(
+            "reviews",
+            []
+        )
+
+        for review in google_reviews:
+
+            text = review.get("text", "")
+
+            sentiment = analyze_sentiment(text)
+
+            analyzed_reviews.append({
+                "review": text,
+                "sentiment": sentiment["label"],
+                "score": sentiment["score"]
+            })
+
+    except Exception as e:
 
         analyzed_reviews.append({
-            "review": review,
-            "sentiment": sentiment["label"],
-            "score": sentiment["score"]
+            "review": str(e),
+            "sentiment": "Error",
+            "score": 0
         })
 
     return analyzed_reviews
@@ -120,9 +141,9 @@ def get_live_reviews(place_id):
         return []
 
 
-@app.get("/reviews")
-def reviews():
-    return analyze_hotel_reviews()
+@app.get("/reviews/{city}")
+def reviews(city: str):
+    return analyze_hotel_reviews(city)
 
 # ==========================
 # TRAVEL SCORE
@@ -397,6 +418,6 @@ def get_travel_data(city: str):
         "travel_score": travel_score,
         "hotels": hotels,
         "attractions": attractions,
-        "reviews": analyze_hotel_reviews(),
+       "reviews": analyze_hotel_reviews(city),
         "trip_plan": trip_plan
     }
