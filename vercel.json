@@ -44,8 +44,10 @@
       "dest": "backend/main.py"
     },
     {
-      "src": "/reviews",
+     
+      "src": "/reviews/(.*)",
       "dest": "backend/main.py"
+
     },
     {
       "src": "/debug",
