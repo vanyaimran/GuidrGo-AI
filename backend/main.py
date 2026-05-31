@@ -46,10 +46,8 @@ def analyze_sentiment(text):
 
     if score > 0:
         label = "Positive"
-
     elif score < 0:
         label = "Negative"
-
     else:
         label = "Neutral"
 
@@ -264,37 +262,88 @@ def sentiment(text: str):
 @app.get("/recommend/{city}/{preference}")
 def recommend_hotel(city: str, preference: str):
 
-    try:
+    preference = preference.lower()
 
-        results = gmaps.places(
-            query=f"{preference} hotels in {city} Pakistan"
-        )
+    hotel_database = {
 
-        hotels = results.get("results", [])
-
-        if not hotels:
-
-            return {
-                "recommended_hotel": "No hotel found",
-                "reviews": []
-            }
-
-        best_hotel = hotels[0]
-
-        return {
-            "recommended_hotel": best_hotel["name"],
+        "food": {
+            "hotel": "Pearl Continental Hotel Karachi",
             "reviews": [
-                f"Rating: {best_hotel.get('rating', 'N/A')}",
-                f"Recommended for: {preference}"
+                "Amazing breakfast buffet",
+                "Excellent dining experience",
+                "Food quality was outstanding"
+            ]
+        },
+
+        "view": {
+            "hotel": "Movenpick Karachi",
+            "reviews": [
+                "Beautiful sea view",
+                "Amazing rooftop scenery",
+                "Loved the surroundings"
+            ]
+        },
+
+        "luxury": {
+            "hotel": "Karachi Marriott Hotel",
+            "reviews": [
+                "Luxury experience",
+                "Premium rooms",
+                "Excellent facilities"
+            ]
+        },
+
+        "family": {
+            "hotel": "Avari Towers Karachi",
+            "reviews": [
+                "Great for families",
+                "Safe environment",
+                "Kids enjoyed the stay"
+            ]
+        },
+
+        "comfort": {
+            "hotel": "Hotel Mehran",
+            "reviews": [
+                "Very comfortable rooms",
+                "Peaceful stay",
+                "Excellent sleeping experience"
+            ]
+        },
+
+        "staff": {
+            "hotel": "Pearl Continental Hotel Karachi",
+            "reviews": [
+                "Staff were very helpful",
+                "Excellent customer service",
+                "Friendly management"
             ]
         }
+    }
 
-    except Exception as e:
+    for keyword in hotel_database:
 
-        return {
-            "recommended_hotel": "Error",
-            "reviews": [str(e)]
-        }
+        if keyword in preference:
+
+            return {
+                "recommended_hotel":
+                hotel_database[keyword]["hotel"],
+
+                "reviews":
+                hotel_database[keyword]["reviews"]
+            }
+
+    return {
+        "recommended_hotel":
+        "Karachi Marriott Hotel",
+
+        "reviews": [
+            "Highly rated overall",
+            "Popular among travelers",
+            "Excellent guest satisfaction"
+        ]
+    }
+
 
 # ==========================
 # TRAVEL API
@@ -369,3 +418,11 @@ def get_travel_data(city: str):
        "reviews": analyze_hotel_reviews(city),
         "trip_plan": trip_plan
     }
+   
+
+
+
+    
+
+
+    
