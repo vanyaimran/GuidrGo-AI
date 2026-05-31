@@ -418,11 +418,3 @@ def get_travel_data(city: str):
        "reviews": analyze_hotel_reviews(city),
         "trip_plan": trip_plan
     }
-   
-
-
-
-    
-
-
-    
