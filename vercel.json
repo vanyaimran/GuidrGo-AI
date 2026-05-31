@@ -36,6 +36,10 @@
       "dest": "backend/main.py"
     },
     {
+      "src": "/test-reviews/(.*)",
+      "dest": "backend/main.py"
+    },
+    {
       "src": "/sentiment/(.*)",
       "dest": "backend/main.py"
     },
