@@ -4,6 +4,40 @@
     {
       "src": "backend/main.py",
       "use": "@vercel/python"
+    },
+    {
+      "src": "*.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "*.css",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "*.js",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/travel/(.*)",
+      "dest": "backend/main.py"
+    },
+    {
+      "src": "/sentiment/(.*)",
+      "dest": "backend/main.py"
+    },
+    {
+      "src": "/debug",
+      "dest": "backend/main.py"
+    },
+    {
+      "src": "/api/(.*)",
+      "dest": "backend/main.py"
+    },
+    {
+      "src": "/",
+      "dest": "/index.html"
     }
   ]
 }
