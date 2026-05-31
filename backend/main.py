@@ -85,6 +85,39 @@ def analyze_hotel_reviews():
         })
 
     return analyzed_reviews
+    # ==========================
+# LIVE GOOGLE REVIEWS
+# ==========================
+def get_live_reviews(place_id):
+
+    try:
+
+        details = gmaps.place(
+            place_id=place_id,
+            fields=["reviews"]
+        )
+
+        reviews = []
+
+        for review in details["result"].get("reviews", []):
+
+            text = review.get("text", "")
+
+            sentiment = analyze_sentiment(text)
+
+            reviews.append({
+                "review": text,
+                "sentiment": sentiment["label"],
+                "score": sentiment["score"]
+            })
+
+        return reviews
+
+    except Exception as e:
+
+        print(e)
+
+        return []
 
 
 @app.get("/reviews")
@@ -165,7 +198,29 @@ def debug():
         "weather_key_exists": WEATHER_API_KEY is not None,
         "google_key_exists": GOOGLE_MAPS_API_KEY is not None
     }
+  # ==========================
+# TEST LIVE REVIEWS
+# ==========================
+@app.get("/test-reviews/{city}")
+def test_reviews(city: str):
 
+    try:
+
+        hotels = gmaps.places(
+            query=f"best hotels in {city} Pakistan"
+        )
+
+        first_hotel = hotels["results"][0]
+
+        place_id = first_hotel["place_id"]
+
+        return get_live_reviews(place_id)
+
+    except Exception as e:
+
+        return {
+            "error": str(e)
+        }
 
 # ==========================
 # SENTIMENT API
