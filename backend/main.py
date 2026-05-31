@@ -259,8 +259,8 @@ def sentiment(text: str):
     # ==========================
 # SMART HOTEL RECOMMENDER
 # ==========================
-@app.get("/recommend/{preference}")
-def recommend_hotel(preference: str):
+@app.get("/recommend/{city}/{preference}")
+def recommend_hotel(city: str, preference: str):
 
     preference = preference.lower()
 
