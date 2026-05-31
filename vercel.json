@@ -28,11 +28,15 @@
       "dest": "backend/main.py"
     },
     {
+      "src": "/reviews",
+      "dest": "backend/main.py"
+    },
+    {
       "src": "/debug",
       "dest": "backend/main.py"
     },
     {
-      "src": "/api/(.*)",
+      "src": "/docs",
       "dest": "backend/main.py"
     },
     {
