@@ -174,8 +174,6 @@ async function recommendHotel() {
             <strong>${data.recommended_hotel}</strong>
         </p>
 
-        <h4>Details</h4>
-
         <ul>
             ${data.reviews.map(review =>
                 `<li>${review}</li>`
