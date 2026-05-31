@@ -20,6 +20,14 @@
   ],
   "routes": [
     {
+      "src": "/openapi.json",
+      "dest": "backend/main.py"
+    },
+    {
+      "src": "/docs",
+      "dest": "backend/main.py"
+    },
+    {
       "src": "/travel/(.*)",
       "dest": "backend/main.py"
     },
@@ -33,10 +41,6 @@
     },
     {
       "src": "/debug",
-      "dest": "backend/main.py"
-    },
-    {
-      "src": "/docs",
       "dest": "backend/main.py"
     },
     {
