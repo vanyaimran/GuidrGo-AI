@@ -138,3 +138,38 @@ async function checkSentiment() {
         </div>
     `;
 }
+async function recommendHotel() {
+
+    const preference =
+        document.getElementById("hotelPreference").value;
+
+    if (!preference) {
+        alert("Please enter a preference");
+        return;
+    }
+
+    const response =
+        await fetch(`/recommend/${preference}`);
+
+    const data =
+        await response.json();
+
+    document.getElementById(
+        "hotelRecommendation"
+    ).innerHTML = `
+
+        <h3>Recommended Hotel</h3>
+
+        <p>
+            <strong>${data.recommended_hotel}</strong>
+        </p>
+
+        <h4>Matching Reviews</h4>
+
+        <ul>
+            ${data.reviews.map(review =>
+                `<li>${review}</li>`
+            ).join("")}
+        </ul>
+    `;
+}
