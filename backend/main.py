@@ -255,10 +255,7 @@ def sentiment(text: str):
 # ==========================
 # REVIEW API
 # ==========================
-@app.get("/reviews")
-def reviews():
 
-    return analyze_hotel_reviews()
     # ==========================
 # SMART HOTEL RECOMMENDER
 # ==========================
