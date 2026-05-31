@@ -14,6 +14,8 @@ async function searchCity() {
 
         const response = await fetch(`/travel/${city}`);
         const data = await response.json();
+        document.getElementById("cityMap").src =
+`https://maps.google.com/maps?q=${city}&t=&z=13&ie=UTF8&iwloc=&output=embed`;
 
         // Main Travel Information
 
