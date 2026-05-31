@@ -87,6 +87,10 @@ def analyze_hotel_reviews():
     return analyzed_reviews
 
 
+@app.get("/reviews")
+def reviews():
+    return analyze_hotel_reviews()
+
 # ==========================
 # TRAVEL SCORE
 # ==========================
