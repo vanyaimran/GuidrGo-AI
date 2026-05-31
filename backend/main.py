@@ -262,88 +262,40 @@ def sentiment(text: str):
 @app.get("/recommend/{city}/{preference}")
 def recommend_hotel(city: str, preference: str):
 
-    preference = preference.lower()
+   @app.get("/recommend/{city}/{preference}")
+def recommend_hotel(city: str, preference: str):
 
-    hotel_database = {
+    try:
 
-        "food": {
-            "hotel": "Pearl Continental Hotel Karachi",
-            "reviews": [
-                "Amazing breakfast buffet",
-                "Excellent dining experience",
-                "Food quality was outstanding"
-            ]
-        },
+        results = gmaps.places(
+            query=f"{preference} hotels in {city} Pakistan"
+        )
 
-        "view": {
-            "hotel": "Movenpick Karachi",
-            "reviews": [
-                "Beautiful sea view",
-                "Amazing rooftop scenery",
-                "Loved the surroundings"
-            ]
-        },
+        hotels = results.get("results", [])
 
-        "luxury": {
-            "hotel": "Karachi Marriott Hotel",
-            "reviews": [
-                "Luxury experience",
-                "Premium rooms",
-                "Excellent facilities"
-            ]
-        },
-
-        "family": {
-            "hotel": "Avari Towers Karachi",
-            "reviews": [
-                "Great for families",
-                "Safe environment",
-                "Kids enjoyed the stay"
-            ]
-        },
-
-        "comfort": {
-            "hotel": "Hotel Mehran",
-            "reviews": [
-                "Very comfortable rooms",
-                "Peaceful stay",
-                "Excellent sleeping experience"
-            ]
-        },
-
-        "staff": {
-            "hotel": "Pearl Continental Hotel Karachi",
-            "reviews": [
-                "Staff were very helpful",
-                "Excellent customer service",
-                "Friendly management"
-            ]
-        }
-    }
-
-    for keyword in hotel_database:
-
-        if keyword in preference:
+        if not hotels:
 
             return {
-                "recommended_hotel":
-                hotel_database[keyword]["hotel"],
-
-                "reviews":
-                hotel_database[keyword]["reviews"]
+                "recommended_hotel": "No hotel found",
+                "reviews": []
             }
 
-    return {
-        "recommended_hotel":
-        "Karachi Marriott Hotel",
+        best_hotel = hotels[0]
 
-        "reviews": [
-            "Highly rated overall",
-            "Popular among travelers",
-            "Excellent guest satisfaction"
-        ]
-    }
+        return {
+            "recommended_hotel": best_hotel["name"],
+            "reviews": [
+                f"Rating: {best_hotel.get('rating', 'N/A')}",
+                f"Recommended for: {preference}"
+            ]
+        }
 
+    except Exception as e:
+
+        return {
+            "recommended_hotel": "Error",
+            "reviews": [str(e)]
+        }
 
 # ==========================
 # TRAVEL API
