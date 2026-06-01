@@ -24,8 +24,8 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Outfit', sans-serif;
-    background-color: var(--bg-main);
-    color: var(--text-primary);
+    background: #07142b !important;
+    color: #ffffff !important;
     line-height: 1.6;
     display: flex;
     justify-content: center;
@@ -325,4 +325,17 @@ li:hover {
     #trip {
         grid-template-columns: 1fr;
     }
+}
+.container,
+#result,
+#score,
+#reviews,
+#hotelRecommendation,
+#trip,
+#sentimentResult {
+    color: white !important;
+}
+
+h1, h2, h3, p, li {
+    color: white !important;
 }
