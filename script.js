@@ -7,6 +7,10 @@ async function searchCity() {
     }
 
     document.getElementById("result").innerHTML = "<p>Loading...</p>";
+    const reviewsContainer = document.getElementById("reviews");
+    if (reviewsContainer) {
+        reviewsContainer.innerHTML = "<p>Loading live reviews...</p>";
+    }
 
     try {
 
@@ -30,7 +34,7 @@ async function searchCity() {
             <h3>🏨 Hotels</h3>
             <ul>
                 ${data.hotels.map(h =>
-                    `<li>${h.name} ⭐ ${h.rating}</li>`
+                    `<li>${h.name} ⭐ ${h.rating || 'N/A'}</li>`
                 ).join("")}
             </ul>
 
@@ -64,10 +68,40 @@ async function searchCity() {
             </ul>
         `;
 
+        // Render Live Reviews
+        if (reviewsContainer) {
+            if (data.reviews && data.reviews.length > 0) {
+                if (data.reviews.length === 1 && data.reviews[0].sentiment === "Error") {
+                    reviewsContainer.innerHTML = `<p style="color: #ef4444; background: rgba(239, 68, 68, 0.1); padding: 15px; border-radius: 8px; border: 1px solid rgba(239, 68, 68, 0.2);">Error fetching reviews: ${data.reviews[0].review}</p>`;
+                } else {
+                    reviewsContainer.innerHTML = `
+                        <div class="reviews-list">
+                            ${data.reviews.map(r => {
+                                const badgeClass = r.sentiment === 'Positive' ? 'badge-positive' : r.sentiment === 'Negative' ? 'badge-negative' : 'badge-neutral';
+                                return `
+                                    <div class="review-card" style="border-left-color: ${r.sentiment === 'Positive' ? 'var(--success)' : r.sentiment === 'Negative' ? 'var(--danger)' : 'var(--text-secondary)'};">
+                                        <p style="margin: 0 0 10px 0; font-style: italic; font-size: 1.05rem;">"${r.review}"</p>
+                                        <span class="badge ${badgeClass}">
+                                            Sentiment: ${r.sentiment} (${r.score >= 0 ? '+' : ''}${r.score.toFixed(2)})
+                                        </span>
+                                    </div>
+                                `;
+                            }).join("")}
+                        </div>
+                    `;
+                }
+            } else {
+                reviewsContainer.innerHTML = "<p>No live hotel reviews available for this city.</p>";
+            }
+        }
+
     } catch (error) {
         console.error(error);
         document.getElementById("result").innerHTML =
         `<p style="color:red;">Error loading city data</p>`;
+        if (reviewsContainer) {
+            reviewsContainer.innerHTML = `<p style="color:red;">Failed to load reviews.</p>`;
+        }
     }
 }
 
@@ -85,15 +119,20 @@ async function checkSentiment() {
 
     const data = await response.json();
 
+    const badgeClass = data.label === 'Positive' ? 'badge-positive' : data.label === 'Negative' ? 'badge-negative' : 'badge-neutral';
+
     document.getElementById("sentimentResult").innerHTML = `
         <div style="
-            background:#1e293b;
+            background:#161d30;
             padding:20px;
             margin-top:15px;
-            border-radius:10px;
+            border-radius:12px;
+            border: 1px solid #334155;
         ">
-            <h3>${data.label}</h3>
-            <p>Score: ${data.score}</p>
+            <h3>Sentiment Result</h3>
+            <span class="badge ${badgeClass}" style="font-size: 1.1rem; padding: 6px 12px;">
+                ${data.label} (${data.score >= 0 ? '+' : ''}${data.score.toFixed(2)})
+            </span>
         </div>
     `;
 }
@@ -111,23 +150,50 @@ async function recommendHotel() {
         return;
     }
 
-    const response =
-        await fetch(`/recommend/${city}/${preference}`);
+    document.getElementById("hotelRecommendation").innerHTML = "<p>Analyzing reviews and scoring hotels...</p>";
 
-    const data =
-        await response.json();
+    try {
+        const response =
+            await fetch(`/recommend/${city}/${encodeURIComponent(preference)}`);
 
-    document.getElementById("hotelRecommendation").innerHTML = `
-        <h3>Recommended Hotel</h3>
+        const data =
+            await response.json();
 
-        <p>
-            <strong>${data.recommended_hotel}</strong>
-        </p>
+        if (data.error) {
+            document.getElementById("hotelRecommendation").innerHTML = `<p style="color:red;">Error: ${data.error}</p>`;
+            return;
+        }
 
-        <ul>
-            ${data.reviews.map(review =>
-                `<li>${review}</li>`
-            ).join("")}
-        </ul>
-    `;
+        document.getElementById("hotelRecommendation").innerHTML = `
+            <h3>🏨 Recommended Hotel for "${preference}"</h3>
+
+            <p>
+                <strong>${data.recommended_hotel}</strong>
+            </p>
+
+            <h3>💬 Relevant Guest Reviews:</h3>
+            <ul>
+                ${data.reviews.map(review => {
+                    if (typeof review === 'object' && review !== null) {
+                        const badgeClass = review.sentiment === 'Positive' ? 'badge-positive' : review.sentiment === 'Negative' ? 'badge-negative' : 'badge-neutral';
+                        return `
+                            <li style="margin-bottom: 12px; border-left: 4px solid ${review.sentiment === 'Positive' ? 'var(--success)' : review.sentiment === 'Negative' ? 'var(--danger)' : 'var(--text-secondary)'};">
+                                <p style="margin: 0 0 8px 0; font-style: italic;">"${review.review}"</p>
+                                <span class="badge ${badgeClass}">
+                                    ${review.sentiment} (${review.score >= 0 ? '+' : ''}${review.score.toFixed(2)})
+                                </span>
+                            </li>
+                        `;
+                    } else {
+                        return `<li>${review}</li>`;
+                    }
+                }).join("")}
+            </ul>
+        `;
+    } catch (error) {
+        console.error(error);
+        document.getElementById("hotelRecommendation").innerHTML = `<p style="color:red;">Failed to get hotel recommendations.</p>`;
+    }
 }
+
+
