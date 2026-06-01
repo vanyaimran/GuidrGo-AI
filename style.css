@@ -333,9 +333,9 @@ li:hover {
 #hotelRecommendation,
 #trip,
 #sentimentResult {
-    color: white !important;
+    color: black !important;
 }
 
 h1, h2, h3, p, li {
-    color: white !important;
+    color: black !important;
 }
