@@ -24,7 +24,7 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Outfit', sans-serif;
-    background: #07142b !important;
+    background: #4da6ff !important;
     color: #ffffff !important;
     line-height: 1.6;
     display: flex;
@@ -333,9 +333,9 @@ li:hover {
 #hotelRecommendation,
 #trip,
 #sentimentResult {
-    color: black !important;
+    color: white !important;
 }
 
 h1, h2, h3, p, li {
-    color: black !important;
+    color: white !important;
 }
