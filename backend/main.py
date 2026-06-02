@@ -9,10 +9,7 @@ app = FastAPI()
 GOOGLE_MAPS_API_KEY = os.getenv("GOOGLE_MAPS_API_KEY")
 WEATHER_API_KEY = os.getenv("WEATHER_API_KEY")
 
-gmaps = None
-
-if GOOGLE_MAPS_API_KEY:
-    gmaps = googlemaps.Client(key=GOOGLE_MAPS_API_KEY)
+gmaps = googlemaps.Client(key=GOOGLE_MAPS_API_KEY)
 
 
 # ==========================
@@ -467,30 +464,19 @@ def recommend_hotel(city: str, preference: str):
 # TRAVEL API
 # ==========================
 @app.get("/travel/{city}")
-def get_travel_data(
-    city: str,
-    budget: int = 0,
-    duration: int = 3
-):
-
-    if budget < 10000:
-        budget_category = "Budget"
-
-    elif budget < 30000:
-        budget_category = "Mid Range"
-
-    else:
-        budget_category = "Luxury"
+def get_travel_data(city: str):
 
     hotels = []
     attractions = []
 
     try:
+
         hotel_results = gmaps.places(
             query=f"best hotels in {city} Pakistan"
         )
 
         for hotel in hotel_results["results"][:5]:
+
             hotels.append({
                 "name": hotel["name"],
                 "rating": hotel.get("rating")
@@ -500,11 +486,13 @@ def get_travel_data(
         pass
 
     try:
+
         attraction_results = gmaps.places(
             query=f"tourist attractions in {city} Pakistan"
         )
 
         for attraction in attraction_results["results"][:10]:
+
             attractions.append(
                 attraction["name"]
             )
@@ -540,10 +528,15 @@ def get_travel_data(
         "weather": weather,
         "risk_analysis": risk,
         "travel_score": travel_score,
-        "budget_category": budget_category,
-        "duration": duration,
         "hotels": hotels,
         "attractions": attractions,
-        "reviews": analyze_hotel_reviews(city),
+       "reviews": analyze_hotel_reviews(city),
         "trip_plan": trip_plan
     }
+
+           
+
+
+
+           
+            
