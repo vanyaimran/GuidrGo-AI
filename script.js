@@ -52,21 +52,33 @@ async function searchCity() {
         `;
 
         document.getElementById("trip").innerHTML = `
-            <h3>Day 1</h3>
-            <ul>
-                ${data.trip_plan.day_1.map(x => `<li>${x}</li>`).join("")}
-            </ul>
+<div class="trip-day">
+    <h3>Day 1</h3>
+    <ul>
+        ${data.trip_plan.day_1.map(x =>
+            `<li>${x}</li>`
+        ).join("")}
+    </ul>
+</div>
 
-            <h3>Day 2</h3>
-            <ul>
-                ${data.trip_plan.day_2.map(x => `<li>${x}</li>`).join("")}
-            </ul>
+<div class="trip-day">
+    <h3>Day 2</h3>
+    <ul>
+        ${data.trip_plan.day_2.map(x =>
+            `<li>${x}</li>`
+        ).join("")}
+    </ul>
+</div>
 
-            <h3>Day 3</h3>
-            <ul>
-                ${data.trip_plan.day_3.map(x => `<li>${x}</li>`).join("")}
-            </ul>
-        `;
+<div class="trip-day">
+    <h3>Day 3</h3>
+    <ul>
+        ${data.trip_plan.day_3.map(x =>
+            `<li>${x}</li>`
+        ).join("")}
+    </ul>
+</div>
+`;
 
         // Render Live Reviews
         if (reviewsContainer) {
