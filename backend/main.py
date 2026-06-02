@@ -9,7 +9,10 @@ app = FastAPI()
 GOOGLE_MAPS_API_KEY = os.getenv("GOOGLE_MAPS_API_KEY")
 WEATHER_API_KEY = os.getenv("WEATHER_API_KEY")
 
-gmaps = googlemaps.Client(key=GOOGLE_MAPS_API_KEY)
+gmaps = None
+
+if GOOGLE_MAPS_API_KEY:
+    gmaps = googlemaps.Client(key=GOOGLE_MAPS_API_KEY)
 
 
 # ==========================
