@@ -292,9 +292,7 @@ li:hover {
 
 /* Dynamic Trip Planner layout */
 #trip {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
+    display: block;
 }
 
 #trip h3 {
