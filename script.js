@@ -1,5 +1,7 @@
 async function searchCity() {
     const city = document.getElementById("city").value;
+    const budget = document.getElementById("budget").value;
+const duration = document.getElementById("duration").value;
 
     if (!city) {
         alert("Please enter a city");
@@ -13,8 +15,9 @@ async function searchCity() {
     }
 
     try {
-
-        const response = await fetch(`/travel/${city}`);
+ const response = await fetch(
+    `/travel/${city}?budget=${budget}&duration=${duration}`
+);
         const data = await response.json();
 
         document.getElementById("cityMap").src =
