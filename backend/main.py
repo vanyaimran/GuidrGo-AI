@@ -472,26 +472,25 @@ def get_travel_data(
     budget: int = 0,
     duration: int = 3
 ):
+
     if budget < 10000:
-    budget_category = "Budget"
+        budget_category = "Budget"
 
-elif budget < 30000:
-    budget_category = "Mid Range"
+    elif budget < 30000:
+        budget_category = "Mid Range"
 
-else:
-    budget_category = "Luxury"
+    else:
+        budget_category = "Luxury"
 
     hotels = []
     attractions = []
 
     try:
-
         hotel_results = gmaps.places(
             query=f"best hotels in {city} Pakistan"
         )
 
         for hotel in hotel_results["results"][:5]:
-
             hotels.append({
                 "name": hotel["name"],
                 "rating": hotel.get("rating")
@@ -501,13 +500,11 @@ else:
         pass
 
     try:
-
         attraction_results = gmaps.places(
             query=f"tourist attractions in {city} Pakistan"
         )
 
         for attraction in attraction_results["results"][:10]:
-
             attractions.append(
                 attraction["name"]
             )
@@ -538,17 +535,15 @@ else:
 
     trip_plan = generate_trip_plan(city)
 
-   return {
-    "city": city,
-    "weather": weather,
-    "risk_analysis": risk,
-    "travel_score": travel_score,
-
-    "budget_category": budget_category,
-    "duration": duration,
-
-    "hotels": hotels,
-    "attractions": attractions,
-    "reviews": analyze_hotel_reviews(city),
-    "trip_plan": trip_plan
-}
+    return {
+        "city": city,
+        "weather": weather,
+        "risk_analysis": risk,
+        "travel_score": travel_score,
+        "budget_category": budget_category,
+        "duration": duration,
+        "hotels": hotels,
+        "attractions": attractions,
+        "reviews": analyze_hotel_reviews(city),
+        "trip_plan": trip_plan
+    }
