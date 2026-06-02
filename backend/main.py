@@ -464,7 +464,19 @@ def recommend_hotel(city: str, preference: str):
 # TRAVEL API
 # ==========================
 @app.get("/travel/{city}")
-def get_travel_data(city: str):
+def get_travel_data(
+    city: str,
+    budget: int = 0,
+    duration: int = 3
+):
+    if budget < 10000:
+    budget_category = "Budget"
+
+elif budget < 30000:
+    budget_category = "Mid Range"
+
+else:
+    budget_category = "Luxury"
 
     hotels = []
     attractions = []
@@ -523,13 +535,17 @@ def get_travel_data(city: str):
 
     trip_plan = generate_trip_plan(city)
 
-    return {
-        "city": city,
-        "weather": weather,
-        "risk_analysis": risk,
-        "travel_score": travel_score,
-        "hotels": hotels,
-        "attractions": attractions,
-       "reviews": analyze_hotel_reviews(city),
-        "trip_plan": trip_plan
-    }
+   return {
+    "city": city,
+    "weather": weather,
+    "risk_analysis": risk,
+    "travel_score": travel_score,
+
+    "budget_category": budget_category,
+    "duration": duration,
+
+    "hotels": hotels,
+    "attractions": attractions,
+    "reviews": analyze_hotel_reviews(city),
+    "trip_plan": trip_plan
+}
