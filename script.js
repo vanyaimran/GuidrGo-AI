@@ -25,6 +25,8 @@ const duration = document.getElementById("duration").value;
 
         document.getElementById("result").innerHTML = `
             <h2>📍 ${data.city}</h2>
+            <p><strong>Budget Type:</strong> ${data.budget_category}</p>
+<p><strong>Duration:</strong> ${data.duration} Days</p>
 
             <h3>🌤 Weather</h3>
             <p>Temperature: ${data.weather.temperature}°C</p>
