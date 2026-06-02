@@ -337,3 +337,9 @@ li:hover {
 h1, h2, h3, p, li {
     color: white !important;
 }
+.trip-day {
+    background: rgba(255,255,255,0.08);
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+}
